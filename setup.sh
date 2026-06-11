@@ -22,12 +22,13 @@ else
   echo "⚠️  backend/.env already exists, skipping..."
 fi
 
-# Seed flag
+# Seed flag (run from repo root so backend/.env is found)
 if [ "$1" == "--seed" ]; then
   echo ""
   echo "🌱 Seeding database with sample tasks..."
-  node backend/src/seed.js
+  cd backend && node src/seed.js && cd ..
   echo "✅ Database seeded!"
+  echo "   Login: seed@test.com / password123"
 fi
 
 echo ""

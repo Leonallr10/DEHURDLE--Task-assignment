@@ -7,7 +7,20 @@ const taskRoutes = require('./routes/taskRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-app.use(cors());
+
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((origin) => origin.trim())
+  : ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    }
+  },
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
