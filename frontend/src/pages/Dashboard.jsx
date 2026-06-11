@@ -1,8 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { getTasks } from '../api/tasks';
 import TaskCard from '../components/TaskCard';
 import TaskForm from '../components/TaskForm';
 import Navbar from '../components/Navbar';
+import { FILTER_OPTIONS, statusDot } from '../utils/status';
+
+function StatCard({ label, count, dotClass }) {
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+      <div className="flex items-center gap-2">
+        {dotClass && <span className={`h-2 w-2 rounded-full ${dotClass}`} />}
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
+      </div>
+      <p className="mt-1 text-2xl font-bold text-slate-900">{count}</p>
+    </div>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div className="space-y-3">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="animate-pulse rounded-2xl border border-slate-200 bg-white p-5">
+          <div className="h-4 w-24 rounded bg-slate-200" />
+          <div className="mt-3 h-5 w-2/3 rounded bg-slate-200" />
+          <div className="mt-2 h-4 w-full rounded bg-slate-100" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState([]);
@@ -16,8 +43,8 @@ export default function Dashboard() {
     try {
       const { data } = await getTasks(filter);
       setTasks(data);
-    } catch (err) {
-      setError('Failed to load tasks');
+    } catch {
+      setError('Failed to load tasks. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -25,51 +52,91 @@ export default function Dashboard() {
 
   useEffect(() => { fetchTasks(); }, [filter]);
 
-  return (
-    <div>
-      <Navbar />
-      <div style={styles.container}>
-        <TaskForm onTaskCreated={fetchTasks} />
+  const stats = useMemo(() => ({
+    total: tasks.length,
+    todo: tasks.filter((t) => t.status === 'todo').length,
+    inProgress: tasks.filter((t) => t.status === 'in-progress').length,
+    done: tasks.filter((t) => t.status === 'done').length,
+  }), [tasks]);
 
-        {/* Filter */}
-        <div style={styles.filterRow}>
-          <span style={styles.label}>Filter by status:</span>
-          {['', 'todo', 'in-progress', 'done'].map((s) => (
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-indigo-50/30">
+      <Navbar />
+
+      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Your tasks
+          </h2>
+          <p className="mt-1 text-slate-500">Organize, track, and complete your work.</p>
+        </div>
+
+        {!loading && !filter && (
+          <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <StatCard label="Total" count={stats.total} />
+            <StatCard label="To Do" count={stats.todo} dotClass={statusDot.todo} />
+            <StatCard label="In Progress" count={stats.inProgress} dotClass={statusDot['in-progress']} />
+            <StatCard label="Done" count={stats.done} dotClass={statusDot.done} />
+          </div>
+        )}
+
+        <div className="mb-8">
+          <TaskForm onTaskCreated={fetchTasks} />
+        </div>
+
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-sm font-medium text-slate-600">Filter:</span>
+          {FILTER_OPTIONS.map((opt) => (
             <button
-              key={s}
-              onClick={() => setFilter(s)}
-              style={{
-                ...styles.filterBtn,
-                backgroundColor: filter === s ? '#4f46e5' : '#e5e7eb',
-                color: filter === s ? 'white' : '#374151'
-              }}
+              key={opt.value || 'all'}
+              type="button"
+              onClick={() => setFilter(opt.value)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition active:scale-95 ${
+                filter === opt.value
+                  ? 'bg-brand-600 text-white shadow-md shadow-indigo-500/25'
+                  : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50 hover:ring-slate-300'
+              }`}
             >
-              {s === '' ? 'All' : s}
+              {opt.label}
             </button>
           ))}
         </div>
 
-        {/* States */}
-        {loading && <p style={styles.info}>Loading tasks...</p>}
-        {error && <p style={styles.error}>{error}</p>}
-        {!loading && !error && tasks.length === 0 && (
-          <p style={styles.info}>No tasks found. Create one above!</p>
+        {error && (
+          <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-700">
+            {error}
+            <button
+              type="button"
+              onClick={fetchTasks}
+              className="ml-2 font-semibold underline hover:no-underline"
+            >
+              Retry
+            </button>
+          </div>
         )}
 
-        {/* Task list */}
-        {tasks.map((task) => (
-          <TaskCard key={task._id} task={task} onUpdate={fetchTasks} />
-        ))}
-      </div>
+        {loading && <LoadingSkeleton />}
+
+        {!loading && !error && tasks.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white/60 px-6 py-16 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-3xl">
+              📋
+            </div>
+            <h3 className="text-lg font-semibold text-slate-800">No tasks yet</h3>
+            <p className="mt-1 text-sm text-slate-500">
+              {filter ? 'No tasks match this filter.' : 'Create your first task above to get started.'}
+            </p>
+          </div>
+        )}
+
+        {!loading && tasks.length > 0 && (
+          <div className="space-y-4">
+            {tasks.map((task) => (
+              <TaskCard key={task._id} task={task} onUpdate={fetchTasks} />
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
-
-const styles = {
-  container: { maxWidth: '720px', margin: '0 auto', padding: '24px' },
-  filterRow: { display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' },
-  label: { fontSize: '14px', fontWeight: '600' },
-  filterBtn: { padding: '6px 14px', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '13px' },
-  info: { textAlign: 'center', color: '#6b7280' },
-  error: { textAlign: 'center', color: 'red' }
-};

@@ -29,27 +29,95 @@ export default function Login() {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h2>Login</h2>
-        {error && <p style={styles.error}>{error}</p>}
-        <input style={styles.input} name="email" placeholder="Email"
-          value={form.email} onChange={handleChange} />
-        <input style={styles.input} name="password" type="password"
-          placeholder="Password" value={form.password} onChange={handleChange} />
-        <button style={styles.button} onClick={handleSubmit} disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-        <p>No account? <Link to="/register">Register</Link></p>
+    <div className="flex min-h-screen">
+      <div className="hidden flex-1 flex-col justify-between bg-gradient-to-br from-brand-700 via-indigo-800 to-slate-900 p-12 text-white lg:flex">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15 text-xl backdrop-blur">
+            ✓
+          </div>
+          <span className="text-xl font-bold">Dehurdle</span>
+        </div>
+        <div>
+          <h2 className="text-4xl font-bold leading-tight">
+            Manage tasks<br />with clarity.
+          </h2>
+          <p className="mt-4 max-w-md text-indigo-200">
+            Track progress, filter by status, and stay on top of deadlines — all in one place.
+          </p>
+        </div>
+        <p className="text-sm text-indigo-300">Secure JWT authentication</p>
+      </div>
+
+      <div className="flex flex-1 items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md">
+          <div className="mb-8 lg:hidden">
+            <div className="flex items-center gap-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-600 text-white">✓</div>
+              <span className="text-xl font-bold text-slate-900">Dehurdle</span>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/50">
+            <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
+            <p className="mt-1 text-sm text-slate-500">Sign in to your account</p>
+
+            {error && (
+              <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <div>
+                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-slate-700">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20"
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-slate-700">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-xl bg-brand-600 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:bg-brand-700 disabled:opacity-60 active:scale-[0.99]"
+              >
+                {loading ? 'Signing in…' : 'Sign in'}
+              </button>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-slate-500">
+              Don&apos;t have an account?{' '}
+              <Link to="/register" className="font-semibold text-brand-600 hover:text-brand-700">
+                Create one
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-const styles = {
-  container: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' },
-  card: { display: 'flex', flexDirection: 'column', gap: '12px', padding: '32px', border: '1px solid #ddd', borderRadius: '8px', width: '320px' },
-  input: { padding: '10px', borderRadius: '6px', border: '1px solid #ccc', fontSize: '14px' },
-  button: { padding: '10px', backgroundColor: '#4f46e5', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' },
-  error: { color: 'red', fontSize: '13px' }
-};
