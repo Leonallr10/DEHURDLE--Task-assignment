@@ -3,7 +3,7 @@ services:
     name: dehurdle-api
     runtime: node
     rootDir: backend
-    buildCommand: chmod +x render-build.sh && bash render-build.sh
+    buildCommand: chmod +x render-build.sh start.sh && bash render-build.sh
     startCommand: npm start
     healthCheckPath: /
     envVars:
