@@ -6,7 +6,7 @@ Full-stack MERN task manager with JWT authentication, built for the DEHURDLE tec
 
 | Service  | URL |
 |----------|-----|
-| Frontend (Vercel) | `https://YOUR-APP.vercel.app` |
+| Frontend (Vercel) | https://dehurdle-task-assignment.vercel.app |
 | Backend (Render)  | https://dehurdle-task-assignment.onrender.com |
 
 Verify the API is live:
