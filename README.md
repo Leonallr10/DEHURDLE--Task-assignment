@@ -167,13 +167,20 @@ pm2 startup
 
 ## Git Workflow
 
-Feature branches used during development:
+Feature branches are pushed to GitHub and merged into `main`. See [GIT_WORKFLOW.md](./GIT_WORKFLOW.md) for details.
 
-- `feature/tasks-api` — REST API + Mongoose models
-- `feature/auth` — JWT authentication
-- `feature/frontend` — React dashboard
-- `feature/cli-setup` — `setup.sh` + `--seed`
-- `feature/deployment` — Render/Vercel config + README
+| Branch | Assignment task |
+|--------|-----------------|
+| `feature/tasks-api` | Task 1 — REST API |
+| `feature/auth` | Task 2 — JWT authentication |
+| `feature/frontend` | Task 3 — React dashboard |
+| `feature/cli-setup` | Task 5 — `setup.sh` + `--seed` |
+| `feature/deployment` | Task 6 — Render deployment + README |
+
+```bash
+git branch -a                              # list all branches
+git log --oneline --graph --all --decorate # visual history
+```
 
 ## Project Structure
 
