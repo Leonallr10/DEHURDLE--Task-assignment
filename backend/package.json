@@ -7,17 +7,13 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "seed": "node src/seed.js",
-    "test": "node src/tests/api.test.js"
+    "test": "node src/tests/api.test.js",
+    "render-build": "rm -rf node_modules && npm ci && node -e \"require('@mongodb-js/saslprep')\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "engines": {
-    "node": "20.x"
+    "node": ">=20.0.0"
   },
   "dependencies": {
-    "@mongodb-js/saslprep": "^1.4.11",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
