@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --color-brand-50: #eef2ff;
@@ -11,7 +13,8 @@
 
 @layer base {
   body {
-    @apply m-0 min-h-screen bg-slate-50 font-sans text-slate-800 antialiased;
+    @apply m-0 min-h-screen bg-slate-50 font-sans text-slate-800 antialiased transition-colors duration-200;
+    @apply dark:bg-slate-950 dark:text-slate-100;
   }
 
   #root {
@@ -22,5 +25,13 @@
 @layer utilities {
   .glass {
     @apply border border-white/20 bg-white/80 backdrop-blur-xl;
+    @apply dark:border-slate-700/50 dark:bg-slate-900/80;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 outline-none transition;
+    @apply placeholder:text-slate-400 focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20;
+    @apply dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500;
+    @apply dark:focus:border-brand-500 dark:focus:bg-slate-800;
   }
 }

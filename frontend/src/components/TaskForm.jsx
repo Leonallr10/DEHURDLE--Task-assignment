@@ -29,23 +29,23 @@ export default function TaskForm({ onTaskCreated }) {
   };
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:shadow-slate-900/50">
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-slate-50"
+        className="flex w-full items-center justify-between px-5 py-4 text-left transition hover:bg-slate-50 dark:hover:bg-slate-800/50"
       >
         <div className="flex items-center gap-3">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-xl font-light text-white shadow-sm">
             +
           </span>
           <div>
-            <h2 className="font-semibold text-slate-900">Create new task</h2>
-            <p className="text-sm text-slate-500">Add title, details, and due date</p>
+            <h2 className="font-semibold text-slate-900 dark:text-white">Create new task</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Add title, details, and due date</p>
           </div>
         </div>
         <span
-          className={`text-slate-400 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+          className={`text-slate-400 transition-transform duration-200 dark:text-slate-500 ${expanded ? 'rotate-180' : ''}`}
         >
           ▼
         </span>
@@ -57,15 +57,15 @@ export default function TaskForm({ onTaskCreated }) {
         }`}
       >
         <div className="overflow-hidden">
-          <form onSubmit={handleSubmit} className="space-y-4 border-t border-slate-100 px-5 pb-5 pt-4">
+          <form onSubmit={handleSubmit} className="space-y-4 border-t border-slate-100 px-5 pb-5 pt-4 dark:border-slate-800">
             {error && (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400">
                 {error}
               </div>
             )}
 
             <div>
-              <label htmlFor="title" className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label htmlFor="title" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
                 Title <span className="text-red-500">*</span>
               </label>
               <input
@@ -74,12 +74,12 @@ export default function TaskForm({ onTaskCreated }) {
                 placeholder="What needs to be done?"
                 value={form.title}
                 onChange={handleChange}
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20"
+                className="input-field"
               />
             </div>
 
             <div>
-              <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
                 Description
               </label>
               <textarea
@@ -89,13 +89,13 @@ export default function TaskForm({ onTaskCreated }) {
                 placeholder="Add more context..."
                 value={form.description}
                 onChange={handleChange}
-                className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20"
+                className="input-field resize-none"
               />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="dueDate" className="mb-1.5 block text-sm font-medium text-slate-700">
+                <label htmlFor="dueDate" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Due date
                 </label>
                 <input
@@ -104,11 +104,11 @@ export default function TaskForm({ onTaskCreated }) {
                   type="date"
                   value={form.dueDate}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20"
+                  className="input-field"
                 />
               </div>
               <div>
-                <label htmlFor="status" className="mb-1.5 block text-sm font-medium text-slate-700">
+                <label htmlFor="status" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
                   Status
                 </label>
                 <select
@@ -116,7 +116,7 @@ export default function TaskForm({ onTaskCreated }) {
                   name="status"
                   value={form.status}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-500/20"
+                  className="input-field"
                 >
                   {STATUS_OPTIONS.map((s) => (
                     <option key={s.value} value={s.value}>{s.label}</option>
@@ -129,7 +129,7 @@ export default function TaskForm({ onTaskCreated }) {
               <button
                 type="button"
                 onClick={() => setExpanded(false)}
-                className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100"
+                className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
               >
                 Cancel
               </button>
