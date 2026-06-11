@@ -102,8 +102,8 @@ AWS EC2 requires manual server setup, security groups, and a process manager. Re
 2. [Render Dashboard](https://dashboard.render.com) → **New → Web Service** → connect repo.
 3. Settings:
    - **Root Directory:** `backend`
-   - **Build Command:** `chmod +x render-build.sh start.sh && bash render-build.sh`
-   - **Start Command:** `npm start` (runs `start.sh` — auto-fixes stale cache)
+   - **Build Command:** `node render-build.js`
+   - **Start Command:** `npm start` (runs `start.js` — auto-fixes stale cache)
    - **Health Check Path:** `/`
 
    > **Important:** Do **not** use plain `npm install`. Render caches old `node_modules` — the build script deletes them first. After changing the build command, go to **Settings → Clear build cache & deploy**.

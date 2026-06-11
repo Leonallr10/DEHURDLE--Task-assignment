@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "bash start.sh",
+    "start": "node start.js",
     "dev": "nodemon src/index.js",
     "seed": "node src/seed.js",
     "test": "node src/tests/api.test.js",
-    "render-build": "bash render-build.sh"
+    "render-build": "node render-build.js"
   },
   "engines": {
     "node": ">=20.0.0"
