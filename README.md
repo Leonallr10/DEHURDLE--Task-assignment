@@ -7,15 +7,15 @@ Full-stack MERN task manager with JWT authentication, built for the DEHURDLE tec
 | Service  | URL |
 |----------|-----|
 | Frontend (Vercel) | `https://YOUR-APP.vercel.app` |
-| Backend (Render)  | `https://YOUR-API.onrender.com` |
+| Backend (Render)  | https://dehurdle-task-assignment.onrender.com |
 
 Verify the API is live:
 
 ```bash
-curl https://YOUR-API.onrender.com/
+curl https://dehurdle-task-assignment.onrender.com/
 # → {"message":"Dehurdle API running"}
 
-curl https://YOUR-API.onrender.com/tasks
+curl https://dehurdle-task-assignment.onrender.com/tasks
 # → 401 {"message":"No token, authorization denied"}
 ```
 
@@ -133,7 +133,7 @@ AWS EC2 requires manual server setup, security groups, and a process manager. Re
 
    | Key             | Value |
    |-----------------|-------|
-   | `VITE_API_URL`  | `https://YOUR-API.onrender.com` |
+   | `VITE_API_URL`  | `https://dehurdle-task-assignment.onrender.com` |
 
 4. Deploy → copy Vercel URL.
 5. Go back to Render and set `CLIENT_URL` to your Vercel URL, then redeploy the backend.
